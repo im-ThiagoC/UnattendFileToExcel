@@ -29,16 +29,20 @@ def parse_unattend_xml(xml_path):
                 if strip_ns(sc.tag) == 'SynchronousCommand':
                     order = ''
                     cmdline = ''
+                    description = ''
                     for sub in sc:
                         if strip_ns(sub.tag) == 'Order':
                             order = sub.text.strip() if sub.text else ''
                         elif strip_ns(sub.tag) == 'CommandLine':
                             cmdline = sub.text.strip() if sub.text else ''
+                        elif strip_ns(sub.tag) == 'Description':
+                            description = sub.text.strip() if sub.text else ''
                     sync_rows.append({
                         'Component': comp_name,
                         'ConfigurationPass': pass_name,
                         'Order': int(order) if order.isdigit() else order,
-                        'CommandLine': cmdline
+                        'CommandLine': cmdline,
+                        'Description': description
                     })
 
             # Driver Paths
